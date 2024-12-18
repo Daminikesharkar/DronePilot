@@ -1,0 +1,27 @@
+{
+  "name": "dronepilot",
+  "version": "1.0.0",
+  "description": "Backend service to manage drones and its simulation",
+  "main": "app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "npx tsc && node dist/app.js",
+    "dev": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.1",
+    "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^22.10.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
