@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
 import userRoutes from './routes/user';
+import droneRoutes from './routes/drone';
 
 dotenv.config();
 const app: Application = express();
@@ -10,6 +11,7 @@ const app: Application = express();
 app.use(express.json());
 
 app.use(userRoutes);
+app.use(droneRoutes);
 
 app.get('/',(req:Request,res:Response)=>{
     res.send("Welcome to DronePilot");

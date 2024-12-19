@@ -1,11 +1,12 @@
 import express from 'express';
-import { createDrone,getDronesByUser} from '../controllers/drone';
+import { createDrone,getDronesByUser,updateDrone,deleteDrone} from '../controllers/drone';
+import { authenticate } from '../middleware/authenticate';
 
 const router = express.Router();
 
-router.post('/createDrone',createDrone);
-router.get('/getDronesByUser',getDronesByUser);
-router.put('/updateDrone');
-router.delete('/deleteDrone');
+router.post('/createDrone',authenticate,createDrone);
+router.get('/getDronesByUser',authenticate,getDronesByUser);
+router.put('/updateDrone/:id',authenticate,updateDrone);
+router.delete('/deleteDrone/:id',authenticate,deleteDrone);
 
 export default router;
