@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import User from '../models/user';
 
 export const signUp = async (req:Request, res:Response) : Promise<void> => {
@@ -32,4 +33,42 @@ export const signUp = async (req:Request, res:Response) : Promise<void> => {
             error: 'Internal Server Error'
         });
     }
+}
+
+export const login = async(req:Request,res:Response):Promise<void> =>{
+
+    const { email,password } = req.body;
+
+    try {
+        const user = await User.findOne({email});
+
+        if(user){
+            const passwordMatch = await bcrypt.compare(password,user.password);
+
+            if(passwordMatch){
+                const secretKey = process.env.SECRETKEY as string;
+                const token = jwt.sign({userId:user.id}, secretKey, {expiresIn: '1h'});
+                
+                res.status(200).json({
+                    message: 'User logged in successfully',
+                    token: token,
+                    user: user
+                });               
+
+            }else {
+                res.status(401).json({
+                    message: "Password doesn't match, please try again"
+                });
+            }
+        }else {
+            res.status(400).json({
+                message: "Email address is not registered please signUp first"
+            });
+        }    
+    } catch (err) {
+        res.status(500).json({
+            error: 'Internal Server Error'
+        });
+    }
+
 }
