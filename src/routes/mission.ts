@@ -10,6 +10,6 @@ router.get('/getMissionById/:id',authenticate,getMissionById);
 router.put('/updateMission/:id',authenticate,updateMission);
 router.delete('/deleteMission/:id',authenticate,deleteMission);
 
-router.post('/startMissionSimulation',startMissionSimulation);
+router.post('/startMissionSimulation',authenticate,startMissionSimulation);
 
 export default router;

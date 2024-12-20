@@ -12,7 +12,7 @@ declare global {
 
 export const authenticate = async(req:Request,res:Response,next:NextFunction)=>{
     try {
-        const token = req.header('Autharization');
+        const token = req.header('Authorization');
         if(token){
             const user = jwt.verify(token,process.env.SECRETKEY as string) as JwtPayload;
             const foundUser = await User.findById(user.userId);
