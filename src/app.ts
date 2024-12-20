@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import userRoutes from './routes/user';
 import droneRoutes from './routes/drone';
 import missionRoutes from './routes/mission';
+import flightLogRoutes from './routes/flightLog';
 
 dotenv.config();
 const app: Application = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(userRoutes);
 app.use(droneRoutes);
 app.use(missionRoutes);
+app.use(flightLogRoutes);
 
 app.get('/',(req:Request,res:Response)=>{
     res.send("Welcome to DronePilot");
