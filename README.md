@@ -1,12 +1,10 @@
 # DronePilot
 Backend service to manage drones, missions, and flight logs, including a simulation feature to mimic drone movement for mission execution.
 
----
 
 ## Overview
 DronePilot is a backend service that allows users to manage drones, missions, and flight logs. The system includes a simulation feature to mimic drone movement along mission waypoints, track the mission's progress, and log flight details. The service also provides APIs to create, update, and delete drones and missions, assign drones to missions, and download flight logs as PDFs.
 
----
 
 ## Features
 1. **User Authentication**
@@ -31,7 +29,6 @@ DronePilot is a backend service that allows users to manage drones, missions, an
    - Upon completion, a flight log is generated and stored.
    - Users can access and download flight logs in PDF format by using a unique flight ID.
 
----
 
 ## Build and Run the Server
 #### **Prerequisites:**
@@ -80,8 +77,7 @@ Ensure that you have the following installed on your machine:
 
    ### Import the Postman Collection:
     1. Download the Postman collection file from the link below:
-
-    [Download the Postman Collection](https://drive.google.com/file/d/18s-rRyl2s6hZ0LL7pVvfYa8SmXq2T06M/view?usp=sharing)
+        [Download the Postman Collection](https://drive.google.com/file/d/18s-rRyl2s6hZ0LL7pVvfYa8SmXq2T06M/view?usp=sharing)
 
     2. Open **Postman** and click on **Import**.
 
