@@ -118,11 +118,50 @@ export const startMissionSimulation = async (req:Request,res:Response):Promise<v
         if(mission){
             mission.drone_id = droneId;
             await mission.save(); 
+
+            const flightLog = new FlightLog({
+                drone_id: droneId,
+                mission_name: mission.name,
+                waypoints: [], 
+                speed: mission.speed,
+                distance: 0,
+                execution_start: new Date(),
+                execution_end: null,
+            });
+
+            await flightLog.save();
+
+            //Simulation starts here
+            let totalDistance = 0;
+            let timeElapsed = 0;
+            let lastWaypoint = mission.waypoints[0];
+
+            for (let i = 1; i < mission.waypoints.length; i++) {
+
+                const currentWaypoint = mission.waypoints[i];
+                const distance = calculateDistance(lastWaypoint.lat, lastWaypoint.lng, currentWaypoint.lat, currentWaypoint.lng);
+                totalDistance += distance;
+
+                const timeToTravel = calculateTime(distance, mission.speed);
+
+                flightLog.waypoints.push({
+                  time: timeElapsed,
+                  lat: currentWaypoint.lat,
+                  lng: currentWaypoint.lng,
+                  alt: currentWaypoint.alt,
+                });
+          
+                timeElapsed += timeToTravel;
+                lastWaypoint = currentWaypoint;                
+            }
+
+            flightLog.distance = totalDistance;
+            flightLog.execution_end = new Date(); 
+            await flightLog.save();
         }   
 
         res.status(200).json({
-            message: "Mission started and simulation completed successfully",
-            mission,
+            message: "Mission started and simulation completed successfully"
         });
 
     } catch (error) {
@@ -130,4 +169,20 @@ export const startMissionSimulation = async (req:Request,res:Response):Promise<v
             error: `Internal Server Error ${error}`,
         });
     }
+}
+
+function calculateDistance(lat1:any, lon1:any, lat2:any, lon2:any) {
+    const R = 6371; 
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c * 1000; 
+}
+
+function calculateTime(distance: number, speed: number) {
+    const speedInMetersPerSecond = speed * 1000 / 3600; 
+    return distance / speedInMetersPerSecond; 
 }
