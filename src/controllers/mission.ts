@@ -1,5 +1,7 @@
 import {Request,Response} from 'express';
 import Mission from '../models/mission';
+import Drone from '../models/drone';
+import FlightLog from '../models/flightLog';
 
 export const createMission = async(req:Request,res:Response):Promise<void> =>{
     const { name, alt, speed, waypoints } = req.body;
@@ -19,10 +21,10 @@ export const createMission = async(req:Request,res:Response):Promise<void> =>{
 
     } catch (error) {
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: `Internal Server Error ${error}`
         });
     }
-}
+};
 
 export const getMissionById = async(req:Request,res:Response):Promise<void> =>{
     try {
@@ -42,10 +44,10 @@ export const getMissionById = async(req:Request,res:Response):Promise<void> =>{
         
     } catch (error) {
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: `Internal Server Error ${error}`,
         });
     }
-}
+};
 
 export const updateMission = async (req: Request, res: Response):Promise<void> => {
     try {
@@ -66,12 +68,13 @@ export const updateMission = async (req: Request, res: Response):Promise<void> =
             message: 'Mission updated successfully',
             mission: updatedMission,
         });
-    } catch (err) {
+    } catch (error) {
         res.status(500).json({
-            error: 'Internal Server Error',
+            error: `Internal Server Error ${error}`,
         });
     }
 };
+
 export const deleteMission = async (req: Request, res: Response):Promise<void> => {
     try {
         const missionId = req.params.id;
@@ -86,9 +89,45 @@ export const deleteMission = async (req: Request, res: Response):Promise<void> =
         res.status(200).json({
             message: 'Mission deleted successfully',
         });
-    } catch (err) {
+    } catch (error) {
         res.status(500).json({
-            error: 'Internal Server Error',
+            error: `Internal Server Error ${error}`,
         });
     }
 };
+
+export const startMissionSimulation = async (req:Request,res:Response):Promise<void> =>{
+
+    try {
+        const { missionId, droneId } = req.body;
+
+        const mission = await Mission.findById(missionId)
+        if (!mission) {
+            res.status(404).json({ 
+                message: "Mission not found" 
+            });
+        }
+
+        const drone = await Drone.findById(droneId);
+        if (!drone) {
+            res.status(404).json({ 
+                message: "Drone not found" 
+            });
+        }
+
+        if(mission){
+            mission.drone_id = droneId;
+            await mission.save(); 
+        }   
+
+        res.status(200).json({
+            message: "Mission started and simulation completed successfully",
+            mission,
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            error: `Internal Server Error ${error}`,
+        });
+    }
+}

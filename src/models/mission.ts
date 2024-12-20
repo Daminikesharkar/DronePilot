@@ -39,6 +39,11 @@ const Mission = new Schema({
         type: Date,
         default: Date.now,
       },
+      drone_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Drone",
+        required: false, 
+      }
 },
 { timestamps: true }
 );

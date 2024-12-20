@@ -30,7 +30,7 @@ export const signUp = async (req:Request, res:Response) : Promise<void> => {
         }        
     } catch (error) {
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: `Internal Server Error ${error}`,
         });
     }
 }
@@ -65,9 +65,9 @@ export const login = async(req:Request,res:Response):Promise<void> =>{
                 message: "Email address is not registered please signUp first"
             });
         }    
-    } catch (err) {
+    } catch (error) {
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: `Internal Server Error ${error}`,
         });
     }
 

@@ -21,7 +21,7 @@ export const createDrone = async(req:Request, res:Response): Promise<void>=>{
         
     } catch (error) {
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: `Internal Server Error ${error}`,
         });
     }
 }
@@ -38,7 +38,7 @@ export const getDronesByUser = async(req:Request,res:Response):Promise<void> =>{
 
         } catch (error) {
             res.status(500).json({
-                error: 'Internal Server Error'
+                error: `Internal Server Error ${error}`,
             });
         }
 }
@@ -65,7 +65,7 @@ export const updateDrone = async(req:Request,res:Response):Promise<void> =>{
         
     } catch (error) {
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: `Internal Server Error ${error}`,
         });
     }
 }
@@ -89,7 +89,7 @@ export const deleteDrone = async(req:Request,res:Response):Promise<void> =>{
         
     } catch (error) {
         res.status(500).json({
-            error: 'Internal Server Error'
-        });        
+            error: `Internal Server Error ${error}`,
+        });      
     }
 }

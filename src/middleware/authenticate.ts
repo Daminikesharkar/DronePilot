@@ -12,7 +12,7 @@ declare global {
 
 export const authenticate = async(req:Request,res:Response,next:NextFunction)=>{
     try {
-        const token = req.header('Autherization');
+        const token = req.header('Autharization');
         if(token){
             const user = jwt.verify(token,process.env.SECRETKEY as string) as JwtPayload;
             const foundUser = await User.findById(user.userId);
@@ -33,7 +33,7 @@ export const authenticate = async(req:Request,res:Response,next:NextFunction)=>{
         
     } catch (error) {
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: `Internal Server Error ${error}`
         });
     }
 }

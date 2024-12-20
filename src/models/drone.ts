@@ -35,7 +35,7 @@ const Drone = new Schema({
     },
     updated_at:{
         type:Date,
-        required: Date.now
+        default: Date.now,
     }
 })
 
