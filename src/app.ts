@@ -21,8 +21,12 @@ app.get('/',(req:Request,res:Response)=>{
     res.send("Welcome to DronePilot");
 })
 
+const mongoUri = (process.env.NODE_ENV === 'production' 
+                   ? 'mongodb://mongo:27017/dronepilot'  
+                   : 'mongodb://localhost:27017/dronepilot'); 
+
 // mongodb+srv://kesharkardamini1234:<db_password>@cluster0.0epflzs.mongodb.net/dronepilot?retryWrites=true&w=majority
-mongoose.connect(`mongodb://localhost:27017`)
+mongoose.connect(mongoUri)
 .then(()=>{
     app.listen(process.env.port || 3000,()=>{
         console.log("Server is live on port 3000");
