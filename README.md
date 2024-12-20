@@ -109,3 +109,51 @@ Ensure that you have the following installed on your machine:
     ### Running the Requests:
     Add the token generated in the login response to the **Authorization** header section of all remaining requests. 
     After importing the collection, you can easily run any API request by selecting the request from the collection and clicking **Send**. 
+
+## Run with Docker
+
+### Step 1: Prerequisites
+1. Ensure that Docker is installed on your system.
+   - To verify Docker is installed, run:
+     ```bash
+     docker --version
+
+2. Build and Start the Containers.
+   - Navigate to the root directory and run the following command:
+   ```bash
+   docker-compose up --build
+
+   -This command will:
+      Build the Docker image for app.
+      Start the app container (dronepilot-app).
+      Start the MongoDB container (dronepilot-mongo).
+
+   -Once the command completes, your application will be running at:
+   ```bash
+   http://localhost:3000
+
+3. Test the APIs through Postman.
+
+4. Check the data in the MongoDB container.
+   - Access the MongoDB shell in the container, run:
+     ```bash
+     docker exec -it dronepilot-mongo mongosh
+     ```
+   - Once inside the MongoDB shell, switch to the `dronepilot` database:
+     ```bash
+     use dronepilot
+     ```
+   - Query collections:
+     ```bash
+     db.drones.find()
+     ```
+   - Exit the MongoDB shell by typing:
+      ```bash
+      exit
+
+5. Stop Docker containers.
+   - To stop the running containers, press `CTRL + C` in the terminal where `docker-compose up` was executed.
+   - Remove the stopped containers by running:
+     ```bash
+     docker-compose down
+     ```
